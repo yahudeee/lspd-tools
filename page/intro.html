@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LSPD – Impounded Vehicle Form</title>
+    <link rel="icon" href="../assets/img/lspd.png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 20px;
+        }
+        form {
+            background: #fff;
+            max-width: 650px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 10px;
+        }
+        label {
+            margin-top: 10px;
+            display: block;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        textarea {
+            height: 260px;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px;
+            width: 100%;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<center>
+    <h1>Los Santos Police Department</h1>
+    <h2>Impounded Vehicle Form</h2>
+    <img src="../assets/img/lspd.png" width="180">
+</center>
+
+<form id="impoundForm">
+
+    <label>Impound Officer</label>
+    <input type="text" id="officer">
+
+    <label>Vehicle Owner</label>
+    <input type="text" id="owner">
+
+    <label>Model & Color</label>
+    <input type="text" id="model">
+
+    <label>Plate Number</label>
+    <input type="text" id="plate">
+
+    <label>Date of Impound</label>
+    <input type="text" id="date">
+
+    <label>Reason (Chronology)</label>
+    <input type="text" id="reason">
+
+    <label>Proof (Image URL)</label>
+    <input type="text" id="proof">
+
+    <label>Total Bailout Fine ($)</label>
+    <input type="text" id="fine">
+
+    <label>Issued By (Rank, Name)</label>
+    <input type="text" id="issued">
+
+    <button type="submit">Generate BBCode</button>
+
+    <label>BBCode Output</label>
+    <textarea id="output" readonly></textarea>
+
+    <button type="button" onclick="copyBBCode()">Copy BBCode</button>
+
+</form>
+
+<script>
+document.getElementById("impoundForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const officer = document.getElementById("officer").value;
+    const owner = document.getElementById("owner").value;
+    const model = document.getElementById("model").value;
+    const plate = document.getElementById("plate").value;
+    const date = document.getElementById("date").value;
+    const reason = document.getElementById("reason").value;
+    const proof = document.getElementById("proof").value;
+    const fine = document.getElementById("fine").value;
+    const issued = document.getElementById("issued").value;
+
+    const bbcode = `
+[divbox=white]
+[hr][/hr]
+[center][size=200]Impounded Vehicle Form[/size][/center]
+[hr][/hr]
+[center][img-resize=160]https://i.imgur.com/87QrXg5.png[/img-resize][/center]
+[hr][/hr]
+[center][b][i][u][size=130] PART I - IMPOUND INFORMATION[/size][/u][/i][/b][/center]
+[hr][/hr]
+[b][color=#000000] Impound Officer:[/color][/b] ${officer}
+[b][color=#000000] Vehicle's owner:[/color][/b] ${owner}
+[b][color=#000000] Model and Color:[/color][/b] ${model}
+[b][color=#000000] Plate Number:[/color][/b] ${plate}
+[b][color=#000000] Date of impound:[/color][/b] ${date}
+[b][color=#000000] Reason:[/color][/b] ${reason}
+[b][color=#000000] Proof:[/color][/b]
+[spoiler][img]${proof}[/img][/spoiler]
+[size=90][b]Note:[/b] [i](Information)[/i][/size]
+[/divbox]
+
+[divbox=white]
+[hr][/hr]
+[center][b][i][u][size=130] PART II - BAILOUT FINES[/size][/u][/i][/b][/center]
+[hr][/hr]
+[b][size=130]Information[/size].[/b]
+This form is to inform the vehicle owner how much to pay the deposit for their vehicle.
+[b]Total must be paid :[/b] [color=green]$${fine}[/color]
+[hr]
+[i]Issued by:[/i]
+[b]${issued}[/b]
+[/divbox]
+`;
+
+    document.getElementById("output").value = bbcode;
+});
+
+function copyBBCode(){
+    const out = document.getElementById("output");
+    out.select();
+    document.execCommand("copy");
+    alert("BBCode copied!");
+}
+</script>
+
+<!-- INFO KANAN ATAS -->
+<div style="position:fixed;top:15px;right:20px;font-size:12px;text-align:right;">
+    © 2025 LSPD VRP<br>
+    Powered by YAHUD
+</div>
+
+</body>
+</html>

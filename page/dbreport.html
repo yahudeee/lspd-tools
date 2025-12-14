@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <body>
+    <script>
+    // Cek apakah user sudah memasukkan password benar di sesi ini
+      var pass = prompt("CIE KEPO MAU LIAT APA?");
+      if (pass !== "db"){
+        window.location.href = "";
+      }
+  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Los Santos Police Department</title>
+    <link rel="icon" type="image/x-icon" href="../assets/img/lspd.png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        fieldset {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        legend {
+            font-size: 1.2em;
+            font-weight: bold;
+            padding: 0 10px;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #555;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            height: 250px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .copy-button {
+            background-color: #007bff;
+        }
+        .copy-button:hover {
+            background-color: #0056b3;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <center><h1>Los Santos Police Department</h1></center>
+    <center><h1>Criminal Intelligence</h1></center>
+    <center><img src="../assets/img/lspd.png" width="200"></center>
+    <center><h2>Velocity Reality Project</h2></center>
+    <form id="bbcodeForm">
+        <!-- Incident Report Section -->
+        <fieldset>
+            <legend>Incident Report</legend>
+
+            <label for="caseNumber">Case Number:</label>
+            <input type="text" id="caseNumber" required>
+
+            <label for="type">Type:</label>
+            <select id="type" >
+                <option value="OIS">OIS</option>
+                <option value="LERI">LERI</option>
+                <option value="ICD">ICD</option>
+                <option value="NTUD">NTUD</option>
+                <option value="TUD">TUD</option>
+                <option value="CUOF">CUOF</option>
+            </select>
+
+            <label for="location">Location:</label>
+            <input type="text" id="location" required>
+
+            <label for="date">Date (DD/MM/YYYY):</label>
+            <input type="text" id="date" required>
+        </fieldset>
+
+        <!-- Suspect Information Section -->
+        <fieldset>
+            <legend>Suspect Information</legend>
+
+            <label for="suspectName">Suspect Full Name:</label>
+            <input type="text" id="suspectName" required>
+
+            <label>Precise Activity Prior to Use of Force:</label>
+            <input type="text" id="suspectActivity" value="(i.e. assaulting, fleeing, passive resistances, etc.)" readonly style="display:none;">
+
+            <label>Activity Choices (select multiple):</label>
+            <select id="activityChoices" multiple  size="6" style="font-size: 0.9em;" onchange="toggleOtherInput() ">
+                <option value="Armed Robbery">Armed Robbery</option>
+                <option value="Evading From Police">Evading From Police</option>
+                <option value="Assault">Assault</option>
+                <option value="Assault with Deadly Weapons">Assault with Deadly Weapons</option>
+                <option value="Attempted Murdering">Attempted Murdering</option>
+                <option value="Murdering">Murdering</option>
+                <option value="Assaulting on LEO">Assaulting on LEO</option>
+                <option value="Attempted Murdering A Public Official">Attempted Murdering A Public Official</option>
+                <option value="Murdering A Public Official">Murdering A Public Official</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <div id="otherActivityContainer" class="hidden">
+                <label for="otherActivity">If "Other," please specify:</label>
+                <input type="text" id="otherActivity">
+            </div>
+
+            <label for="weapons1">Weapon(s) (General):</label>
+        <select id="weapons1" multiple>
+            <option value="N/A">N/A</option>
+            <option value="Knife">Knife</option>
+            <option value="Vehicle">Vehicle</option>
+            <option value="Bite">Bite</option>
+        </select>
+
+        <label for="weapons2">Weapon(s) (Detailed):</label>
+        <select id="weapons2" multiple onchange="toggleWeaponDetails()">
+            <option value="Firearm">Firearm</option>
+            <option value="Blunt object">Blunt object</option>
+            <option value="Hands/feet">Hands/feet</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <div id="firearmTypeContainer" class="hidden">
+            <label for="firearmType">Firearm (type):</label>
+            <input type="text" id="firearmType">
+        </div>
+
+        <div id="bluntObjectTypeContainer" class="hidden">
+            <label for="bluntObjectType">Blunt object (type):</label>
+            <input type="text" id="bluntObjectType">
+        </div>
+
+        <div id="handsFeetTechniqueContainer" class="hidden">
+            <label for="handsFeetTechnique">Hands/feet (technique):</label>
+            <input type="text" id="handsFeetTechnique">
+        </div>
+
+        <div id="otherWeaponContainer" class="hidden">
+            <label for="otherWeapon">Other:</label>
+            <input type="text" id="otherWeapon">
+            </div>
+
+            <label for="underInfluence">Under Influence:</label>
+            <select id="underInfluence"> 
+                <option value="[ ] Alcohol [ ] Drugs [ ] Unknown [X] N/A">N/A</option>
+                <option value="[X] Alcohol [ ] Drugs [ ] Unknown [ ] N/A">Alcohol</option>
+                <option value="[ ] Alcohol [X] Drugs [ ] Unknown [ ] N/A">Drugs</option>
+                <option value="[ ] Alcohol [ ] Drugs [X] Unknown [ ] N/A">Unknown</option>
+            </select>
+
+            <label for="injured">Injured:</label>
+            <select id="injured" onchange="toggleInjuryDescription()">
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select>
+
+            <div id="injuryDescriptionContainer" class="hidden">
+                <label for="injuryDescription">Describe the injuries sustained:</label>
+                <input type="text" id="injuryDescription">
+            </div>
+
+            <label for="treatedBy">Treated by:</label>
+            <select id="treatedBy" multiple >
+                <option value="N/A">N/A</option>
+                <option value="Officer">Officer</option>
+                <option value="Fire department">Fire department</option>
+                <option value="Emergency room">Emergency room</option>
+            </select>
+        </fieldset>
+
+        <!-- Officer Information Section -->
+        <fieldset>
+            <legend>Officer Information</legend>
+
+            <label for="officerName">Officer Full Name:</label>
+            <input type="text" id="officerName" required>
+
+            <label for="personInCharge">Person In-Charge of Use of Force:</label>
+            <input type="text" id="personInCharge" required>
+
+            <label for="uniform">Uniform:</label>
+            <select id="uniform" multiple>
+                <option value="Patrol uniform">Patrol uniform</option>
+                <option value="Tactical">Tactical</option>
+                <option value="Plain clothes">Plain clothes</option>
+            </select>
+
+            <label for="weaponUsed">Weapons Used At Time of Incident:</label>
+            <select id="weaponUsed" multiple >
+                <option value="Handgun">Handgun</option>
+                <option value="Rubber shotgun">Rubber shotgun</option>
+                <option value="Lethal shotgun">Lethal shotgun</option>
+                <option value="Submachine guns">Submachine guns</option>
+                <option value="Automatic rifle">Automatic rifle</option>
+                <option value="Tazer">Tazer</option>
+                <option value="Spike Trap">Spike Trap</option>
+            </select>
+        </fieldset>
+
+        <!-- Resource Information Section -->
+        <fieldset>
+            <legend>Resource Information</legend>
+
+            <label for="idCard">ID Card:</label>
+            <input type="text" id="idCard">
+
+            <label for="evidenceRecord">Evidence Record:</label>
+            <input type="text" id="evidenceRecord">
+
+            <label for="arrestRecord">Arrest Record:</label>
+            <input type="text" id="arrestRecord">
+
+            <label for="videoFootage">Video/Dashcam Footage:</label>
+            <input type="text" id="videoFootage">
+        </fieldset>
+
+        <!-- Output Section -->
+        <button id="myButton" type="submit">Generate BBCode</button>
+
+        <fieldset>
+            <legend>Output</legend>
+            <textarea id="bbcodeOutput" readonly></textarea>
+            <button type="button" class="copy-button" id="copyButton">Copy BBCode</button>
+        </fieldset>
+        
+        <!-- Header Section -->
+        <fieldset>
+            <legend>Header</legend>
+            <textarea id="headerOutput" readonly></textarea>
+            <button type="button" class="copy-button" id="copyHeader">Copy Header</button>
+        </fieldset>
+        <audio id="clickSound" src="assets/mdclick.mp3"></audio>
+    </form>
+
+    <script>
+        function toggleOtherInput() {
+            const activityChoices = document.getElementById('activityChoices');
+            const otherActivityContainer = document.getElementById('otherActivityContainer');
+
+            // Check if "Other" is selected
+            if (Array.from(activityChoices.selectedOptions).some(option => option.value === "Other")) {
+                otherActivityContainer.classList.remove('hidden');
+            } else {
+                otherActivityContainer.classList.add('hidden');
+                document.getElementById('otherActivity').value = ''; // Clear the input if hidden
+            }
+        }
+        
+        function formatDateForBBCode(inputDate) {
+    const [day, month, year] = inputDate.split("/");
+    
+    // Check if the input is valid
+    if (day.length === 2 && month.length === 2 && year.length === 4) {
+        const shortYear = year.slice(-2); // Get the last two digits of the year
+        return `${day}/${month}/${shortYear}`; // Return in DD/MM/YY format
+    } else {
+        return ""; // Handle invalid date formats
+    }
+}
+        
+        function toggleWeaponDetails() {
+            const weapon2 = document.getElementById("weapons2").value;
+
+            document.getElementById("firearmTypeContainer").classList.toggle("hidden", weapon2 !== "Firearm");
+            document.getElementById("bluntObjectTypeContainer").classList.toggle("hidden", weapon2 !== "Blunt object");
+            document.getElementById("handsFeetTechniqueContainer").classList.toggle("hidden", weapon2 !== "Hands/feet");
+            document.getElementById("otherWeaponContainer").classList.toggle("hidden", weapon2 !== "Other");
+        }
+
+        function toggleInjuryDescription() {
+            const injured = document.getElementById("injured").value;
+            const injuryDescriptionContainer = document.getElementById("injuryDescriptionContainer");
+            injuryDescriptionContainer.classList.toggle("hidden", injured === "No");
+        }
+
+        document.getElementById("bbcodeForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        
+        // Get values from the form
+        const caseNumber = document.getElementById("caseNumber").value;
+        const type = document.getElementById("type").value;
+        const location = document.getElementById("location").value;
+        const date = document.getElementById("date").value;
+        const dateInput = document.getElementById("date").value;
+        const dateFormatted = formatDateForBBCode(dateInput);
+        const suspectName = document.getElementById("suspectName").value;
+            // Handle selected activities
+            const selectedActivities = Array.from(document.getElementById('activityChoices').selectedOptions)
+                .map(option => option.value)
+                .filter(activity => activity !== "Other"); // Exclude "Other" from selected activities
+            const otherActivity = document.getElementById('otherActivity').value;
+
+            // Combine activities
+            let suspectActivity = selectedActivities.length ? selectedActivities.join(', ') :'Because';
+            if (otherActivity) {
+                suspectActivity += `, ${otherActivity}`;
+            }
+        const weapons1 = Array.from(document.getElementById("weapons1").selectedOptions).map(option => option.value);
+        const weapons2 = Array.from(document.getElementById("weapons2").selectedOptions).map(option => option.value);
+        const underInfluence = Array.from(document.getElementById("underInfluence").selectedOptions).map(option => option.value).join(', ');
+        const injured = document.getElementById("injured").value;
+        const injuryDescription = document.getElementById("injuryDescription").value; 
+        const treatedBy = Array.from(document.getElementById('treatedBy').selectedOptions)
+        .map(option => option.value)
+        const officerName = document.getElementById("officerName").value;
+        const personInCharge = document.getElementById("personInCharge").value;
+        const uniform = Array.from(document.getElementById("uniform").selectedOptions).map(option => option.value).join(", ");
+        const weaponUsed = Array.from(document.getElementById("weaponUsed").selectedOptions).map(option => option.value).join(", ");
+        const idCard = document.getElementById("idCard").value;
+        const evidenceRecord = document.getElementById("evidenceRecord").value;
+        const arrestRecord = document.getElementById("arrestRecord").value;
+        const videoFootage = document.getElementById("videoFootage").value;
+
+        // Format weapons for BBCode
+        const weapons1BBCode = [
+            weapons1.includes('N/A') ? '[X] N/A' : '[ ] N/A',
+            weapons1.includes('Knife') ? '[X] Knife' : '[ ] Knife',
+            weapons1.includes('Vehicle') ? '[X] Vehicle' : '[ ] Vehicle',
+            weapons1.includes('Bite') ? '[X] Bite' : '[ ] Bite',
+
+        ].join(' ');
+        const weapons2BBCode = [
+             weapons2.includes('Firearm') ? '[X] Firearm' : '[ ] Firearm',
+            weapons2.includes('Blunt object') ? '[X] Blunt object' : '[ ] Blunt object',
+            weapons2.includes('Hands/feet') ? '[X] Hands/feet' : '[ ] Hands/feet',
+            weapons2.includes('Other') ? '[X] Other' : '[ ] Other'
+        ].join(' ');
+
+        // Format for other weapon details
+        const firearms = weapons2.includes('Firearm') ? `[X] Firearm (type): ${document.getElementById("firearmType").value}` : `[ ] Firearm (type): `;
+        const bluntObject = weapons2.includes('Blunt object') ? `[X] Blunt object (type): ${document.getElementById("bluntObjectType").value}` : `[ ] Blunt object (type): `;
+        const handsFeet = weapons2.includes('Hands/feet') ? `[X] Hands/feet (technique): ${document.getElementById("handsFeetTechnique").value}` : `[ ] Hands/feet (technique): `; 
+        const otherWeapon = weapons2.includes('Other') ? `[X] Other: ${document.getElementById("otherWeapon").value}` : `[ ] Other: `;
+
+        // Format uniform for BBCode
+        const uniformBBCode = [
+            uniform.includes('Patrol uniform') ? '[X] Patrol uniform' : '[ ] Patrol uniform',
+            uniform.includes('Tactical') ? '[X] Tactical' : '[ ] Tactical',
+            uniform.includes('Plain clothes') ? '[X] Plain clothes' : '[ ] Plain clothes',
+        ].join(' ');
+
+        // Format weaponUsed for BBCode
+        const weaponUsedBBCode = [
+            weaponUsed.includes('Handgun') ? '[X] Handgun' : '[ ] Handgun',
+            weaponUsed.includes('Rubber shotgun') ? '[X] Rubber shotgun' : '[ ] Rubber shotgun',
+            weaponUsed.includes('Lethal shotgun') ? '[X] Lethal Shotgun' : '[ ] Lethal Shotgun',
+            weaponUsed.includes('Submachine guns') ? '[X] Submachine guns' : '[ ] Submachine guns',
+            weaponUsed.includes('Automatic rifle') ? '[X] Automatic rifle' : '[ ] Automatic rifle',
+            weaponUsed.includes('Tazer') ? '[X] Tazer' : '[ ] Tazer',
+            weaponUsed.includes('Spike Trap') ? '[X] Spike Trap' : '[ ] Spike Trap',
+        ].join(' ');
+
+        // Format injured for BBCode
+        const injuredBBCode = [
+            injured.includes('No') ? '[X] No' : '[ ] No',
+            injured.includes('Yes') ? '[X] Yes' : '[ ] Yes (If yes, describe)',
+        ].join(' ');
+        const Yes = injured.includes('Yes') ? `[ ] No [X] Yes ${document.getElementById("injuryDescription").value}` : `[X] No [ ] Yes (If yes, describe)`;
+
+        // Format treatedby for BBCode
+        const treatedByBBCode = [
+            treatedBy.includes('N/A') ? '[X] N/A' : '[ ] N/A',
+            treatedBy.includes('Officer') ? '[X] Officer' : '[ ] Officer',
+            treatedBy.includes('Fire department') ? '[X] Fire department' : '[ ] Fire department',
+            treatedBy.includes('Emergency room') ? '[X] Emergency room' : '[ ] Emergency room',
+        ].join(' ');
+
+        // Generate BBCode output
+        const bbcodeOutput = `[divbox=WHITE]\n\n[size=95]\n[center][img-resize=120]https://i.imgur.com/g1vV6oH.png[/img-resize]\n\n[b]INCIDENT REPORT[/b][/center]\n[aligntable=left,250,15,0,0,0,transparent][b]CASE #:[/b] ${caseNumber}\n[b]Type:[/b] ${type}[/aligntable][aligntable=right,200,0,15,0,0,transparent][right][b]LOCATION:[/b] ${location}\n[b]DATE:	[/b] ${date}\n[/aligntable]\n\n[hr][/hr]\n[center][b][size=80]SUSPECT INFORMATION[/b][/size][/center]\n[hr][/hr]\n\n[aligntable=middle,0,15,15,0,0,transparent]\nFullname: ${suspectName}\nPrecise activity prior to use of force:  (i.e. assaulting, fleeing, passive resistances, etc.)\n${suspectActivity} \nWeapon(s):	${weapons1BBCode}\n[list=none]${firearms}\n${bluntObject}\n${handsFeet}\n${otherWeapon}\n[/list] \nUnder Influence: ${underInfluence}\n\nInjured: ${Yes}\nTreated by: ${treatedByBBCode}\n[/aligntable]\n[hr][/hr]\n[center][b][size=80]OFFICER INFORMATION[/b][/size][/center]\n[hr][/hr]\n[aligntable=middle,0,15,15,0,0,transparent]\nFullname: ${officerName}\nPerson in-charge of use of force: ${personInCharge}\nUniform: ${uniformBBCode}\nWeapon used at time of incident: ${weaponUsedBBCode}\n[/aligntable]\n\n[hr][/hr]\n[center][b][size=80]RESOURCE INFORMATION[/b][/size][/center]\n[hr][/hr]\n\n[aligntable=middle,0,15,15,0,0,transparent]\n[secspoiler=ID Card][img]${idCard}[/img][/secspoiler]\n[secspoiler=Evidence Record][img]${evidenceRecord}[/img][/secspoiler]\n[secspoiler=Arrest Record, ICD Record][img]${arrestRecord}[/img][/secspoiler]\n[secspoiler=Video, Dashcam Footage, if available]${videoFootage}\n[/secspoiler]\n[/aligntable]\n\n\n[space][/space]\n[/divbox]`;
+
+        // Generate Header output
+        const headerOutput = `Case #${caseNumber} - ${type} - ${officerName} - ${date}`;
+
+        // Set the output to the textarea
+        document.getElementById("bbcodeOutput").value = bbcodeOutput;
+
+        // Set the header to the textarea
+        document.getElementById("headerOutput").value = headerOutput;
+    });
+
+    // Copy BBCode to clipboard
+    document.getElementById("copyButton").addEventListener("click", function() {
+        const bbcodeOutput = document.getElementById("bbcodeOutput");
+        bbcodeOutput.select();
+        document.execCommand("copy");
+        alert("BBCode copied to clipboard!");
+    });
+
+    // Copy Header to clipboard
+    document.getElementById("copyHeader").addEventListener("click", function() {
+        const headerOutput = document.getElementById("headerOutput");
+        headerOutput.select();
+        document.execCommand("copy");
+        alert("Header copied to clipboard!");
+    });
+            // Mendapatkan elemen audio dan tombol
+            const clickSound = document.getElementById('clickSound');
+        const button = document.getElementById('myButton');
+
+        // Menambahkan event listener untuk klik
+        button.addEventListener('click', function() {
+            // Memutar suara saat tombol diklik
+            clickSound.currentTime = 0; // Mengatur waktu mulai ke awal
+            clickSound.play(); // Memutar suara
+        });
+    
+</script>
+<div style="
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    text-align: right;
+    font-size: 12px;
+    color: #000;
+">
+    © 2025 Los Santos Police Department Velocity Reality Project<br>
+    Powered by YAHUD<br>
+    SPECIAL THANKS TO<br>
+    SAPD Jogjagamers Roleplay for layout inspired!!
+</div>
+</div>
+</div>
+</body>
+
+</html>

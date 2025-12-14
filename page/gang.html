@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+          <body>
+    <script>
+    // Cek apakah user sudah memasukkan password benar di sesi ini
+      var pass = prompt("CIE KEPO MAU LIAT APA? ");
+      if (pass !== "db"){
+        window.location.href = "";
+      }
+  </script>
+    <meta charset="UTF-8">
+    <title>OCI – Gang Identification Card</title>
+    <link rel="icon" href="../assets/img/lspd.png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 20px;
+        }
+        form {
+            background: #fff;
+            max-width: 650px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 8px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        textarea {
+            height: 240px;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px;
+            width: 100%;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<center>
+    <h1>Office of Criminal Intelligence</h1>
+    <h2>Gang Identification Operation</h2>
+    <img src="https://i.imgur.com/HyJsQXd.png" width="150">
+</center>
+
+<form id="gangForm">
+
+    <label>Name</label>
+    <input type="text" id="name">
+
+    <label>Aliases</label>
+    <input type="text" id="aliases">
+
+    <label>Gender</label>
+    <input type="text" id="gender">
+
+    <label>Affiliation</label>
+    <input type="text" id="affiliation">
+
+    <label>Known Residence</label>
+    <input type="text" id="residence">
+
+    <label>Phone Number</label>
+    <input type="text" id="phone">
+
+    <label>Age</label>
+    <input type="text" id="age">
+
+    <label>Extra Information</label>
+    <input type="text" id="extra">
+
+    <label>ID Card (Image URL)</label>
+    <input type="text" id="idcard">
+
+    <label>MDC Summary (Image URL)</label>
+    <input type="text" id="mdc">
+
+    <label>Mugshot (Image URL)</label>
+    <input type="text" id="mugshot">
+
+    <button type="submit">Generate BBCode</button>
+
+    <label>BBCode Output</label>
+    <textarea id="output" readonly></textarea>
+
+    <button type="button" onclick="copyBBCode()">Copy BBCode</button>
+
+</form>
+
+<script>
+document.getElementById("gangForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const aliases = document.getElementById("aliases").value;
+    const gender = document.getElementById("gender").value;
+    const affiliation = document.getElementById("affiliation").value;
+    const residence = document.getElementById("residence").value;
+    const phone = document.getElementById("phone").value;
+    const age = document.getElementById("age").value;
+    const extra = document.getElementById("extra").value;
+    const idcard = document.getElementById("idcard").value;
+    const mdc = document.getElementById("mdc").value;
+    const mugshot = document.getElementById("mugshot").value;
+
+    const bbcode = `
+[divbox=WHITE]
+
+[hr]
+[center][img-resize=100]https://i.imgur.com/HyJsQXd.png[/img-resize][/center]
+[size=120][b][center][u][color=#000000]OFFICE OF CRIMINAL INTELLIGENCE[/color][/u][/center][/b][/size]
+[center][b][u][color=#000000]GANG IDENTIFICATION OPERATION[/color][/u][/b][/center]
+[divbox=#3399FF][center][color=#000000][size=100][font=News706 BT]GANG IDENTIFICATION CARD[/font][/size][/color][/center][/divbox]
+
+[hr]
+[color=#000000][b]1.[/b] [u]Personal Information[/u] :[/color]
+NAME : ${name}
+ALIASES : ${aliases}
+GENDER : ${gender}
+AFFILIATION : ${affiliation}
+KNOWN RESIDENCE : ${residence}
+PHONE NUMBER : ${phone}
+AGE : ${age}
+EXTRA INFORMATION : ${extra}
+
+[hr]
+[u][color=#000000][b]2.[/b] DOCUMENTATION :[/color][/u]
+
+[list][secspoiler=ID CARD][img]${idcard}[/img][/secspoiler][/list]
+[list][secspoiler=MDC SUMMARY][img]${mdc}[/img][/secspoiler][/list]
+[list][secspoiler=MUGSHOT][img]${mugshot}[/img][/secspoiler][/list]
+[/divbox]
+`;
+
+    document.getElementById("output").value = bbcode;
+});
+
+function copyBBCode(){
+    const out = document.getElementById("output");
+    out.select();
+    document.execCommand("copy");
+    alert("BBCode copied!");
+}
+</script>
+
+<!-- INFO KANAN ATAS -->
+<div style="position:fixed;top:15px;right:20px;font-size:12px;text-align:right;">
+    © 2025 LSPD VRP<br>
+    Powered by YAHUD
+</div>
+
+</body>
+</html>
